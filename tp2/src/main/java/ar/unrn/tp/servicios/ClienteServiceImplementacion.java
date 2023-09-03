@@ -22,6 +22,7 @@ public class ClienteServiceImplementacion implements ClienteService {
 	@Override
 	public void clienteService(ConsultaService consultas) {
 		// TODO Auto-generated method stub
+		this.consultas = consultas;
 
 	}
 
@@ -44,10 +45,20 @@ public class ClienteServiceImplementacion implements ClienteService {
 	}
 
 	@Override
-	public void modificarCliente(Long idCliente, String nombre) {
+	public void modificarCliente(Long idCliente, String nombre, String apellido, String dni, String email) {
 
+		Long numero = Long.parseLong(dni);
 		consultas.inTransactionExecute((em) -> {
+			Cliente cliente = em.getReference(Cliente.class, idCliente);
 
+			try {
+				cliente = sistema.modificarCliente(cliente, nombre, apellido, new Dni(numero), new Email(email));
+
+				em.persist(cliente);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		});
 	}
 

@@ -6,7 +6,7 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class Dni {
 	@Column(name = "dni")
-	Long dni;
+	private Long dni;
 
 	public Dni(Long dni) throws Exception {
 		if (this.datoNulo(dni))

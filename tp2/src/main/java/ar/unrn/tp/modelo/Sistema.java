@@ -88,12 +88,21 @@ public class Sistema {
 		return carrito.calcularMontoDeCompra(nroTarjeta);
 	}
 
-	public Producto modificarProducto(String descripcion, Long codigo, Categoria categoria, double precio, String marca)
+	public Cliente modificarCliente(Cliente cliente, String nombre, String apellido, Dni dni, Email email)
 			throws Exception {
 
-		Producto producto = null;
+		if ((this.existeUsuario(cliente.dniUsuario())) && (!this.existeDni(dni.dni()))) {
+			cliente.modificarCliente(nombre, apellido, dni, email);
+		} else
+			throw new Exception("Ha ocurrido un error al crear el nuevo producto");
+
+		return cliente;
+	}
+
+	public Producto modificarProducto(Producto producto, String descripcion, Long codigo, Categoria categoria,
+			double precio, String marca) throws Exception {
+
 		if ((this.existeCategoria(categoria.codigoCategoria())) && (this.existeproducto(codigo))) {
-			producto = this.recuperarProducto(codigo);
 			producto.modificarProducto(descripcion, codigo, categoria, precio, marca);
 		} else
 			throw new Exception("Ha ocurrido un error al modificar el producto");

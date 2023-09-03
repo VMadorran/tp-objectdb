@@ -21,7 +21,7 @@ public class ProductoServiceImplementacion implements ProductoService {
 	@Override
 	public void productoService(ConsultaService consulta) {
 		// TODO Auto-generated method stub
-
+		this.consultas = consultas;
 	}
 
 	@Override
@@ -48,8 +48,9 @@ public class ProductoServiceImplementacion implements ProductoService {
 		consultas.inTransactionExecute((em) -> {
 			Producto producto = em.getReference(Producto.class, idProducto);
 			try {
-				sistema.modificarProducto(descripcion, producto.codigoProducto(), categoria, precio, marca);
-				em.persist(sistema.recuperarProducto(producto.codigoProducto()));
+				producto = sistema.modificarProducto(producto, descripcion, producto.codigoProducto(), categoria,
+						precio, marca);
+				em.persist(producto);
 
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
