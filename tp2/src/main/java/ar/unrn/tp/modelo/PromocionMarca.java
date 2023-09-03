@@ -2,6 +2,9 @@ package ar.unrn.tp.modelo;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Entity;
+
+@Entity
 public class PromocionMarca extends Promocion {
 
 	public PromocionMarca(LocalDateTime inicio, LocalDateTime fin, String nombre, float descuento) throws Exception {

@@ -15,9 +15,21 @@ public class Email {
 		this.direccion = direccion;
 	}
 
+	private Email() {
+
+	}
+
 	private boolean checkEmail(String email) {
 		String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
 		return email.matches(regex);
+	}
+
+	private String getDireccion() {
+		return direccion;
+	}
+
+	private void setDireccion(String direccion) {
+		this.direccion = direccion;
 	}
 
 	protected String direccionDeEmail() {

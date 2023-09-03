@@ -14,12 +14,24 @@ public class Dni {
 		this.dni = dni;
 	}
 
+	private Dni() {
+
+	}
+
 	public Long dni() {
 		return this.dni;
 	}
 
 	private boolean datoNulo(Long dato) {
 		return dato.equals(0);
+	}
+
+	private Long getDni() {
+		return dni;
+	}
+
+	private void setDni(Long dni) {
+		this.dni = dni;
 	}
 
 }

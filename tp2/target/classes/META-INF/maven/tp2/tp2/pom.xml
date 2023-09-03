@@ -57,5 +57,10 @@
 			<version>5.9.2</version>
 			<scope>test</scope>
 		</dependency>
-	</dependencies>
+		<dependency>
+			<groupId>tp</groupId>
+			<artifactId>tp</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+    </dependencies>
 </project>

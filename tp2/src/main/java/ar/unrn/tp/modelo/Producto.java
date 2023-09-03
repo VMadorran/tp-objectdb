@@ -2,12 +2,14 @@ package ar.unrn.tp.modelo;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
 public class Producto {
 
 	@Id
+	@GeneratedValue
 	private Long id;
 
 	private Long codigo;
@@ -50,6 +52,10 @@ public class Producto {
 		this.codigo = codigo;
 		this.precio = precio;
 		this.id = id;
+	}
+
+	private Producto() {
+
 	}
 
 	public double precioProducto() {
@@ -96,6 +102,54 @@ public class Producto {
 
 	private boolean datoNulo(Subcategoria dato) {
 		return dato == null;
+	}
+
+	private Long getId() {
+		return id;
+	}
+
+	private void setId(Long id) {
+		this.id = id;
+	}
+
+	private Long getCodigo() {
+		return codigo;
+	}
+
+	private void setCodigo(Long codigo) {
+		this.codigo = codigo;
+	}
+
+	private Categoria getCategoria() {
+		return categoria;
+	}
+
+	private void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
+
+	private String getDescripcion() {
+		return descripcion;
+	}
+
+	private void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	private double getPrecio() {
+		return precio;
+	}
+
+	private void setPrecio(double precio) {
+		this.precio = precio;
+	}
+
+	private String getMarca() {
+		return marca;
+	}
+
+	private void setMarca(String marca) {
+		this.marca = marca;
 	}
 
 }

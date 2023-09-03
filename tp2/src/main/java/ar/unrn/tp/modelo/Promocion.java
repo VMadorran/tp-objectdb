@@ -4,11 +4,13 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
 public abstract class Promocion {
 	@Id
+	@GeneratedValue
 	protected Long id;
 	protected float descuento;
 	private String nombre;
@@ -42,6 +44,10 @@ public abstract class Promocion {
 		this.id = id;
 	}
 
+	public Promocion() {
+
+	}
+
 	public abstract double aplicarDescuento(double monto);
 
 	public boolean seAplicaDescuento(String marca) {
@@ -65,6 +71,62 @@ public abstract class Promocion {
 			return true;
 
 		return false;
+	}
+
+	private Long getId() {
+		return id;
+	}
+
+	private void setId(Long id) {
+		this.id = id;
+	}
+
+	private float getDescuento() {
+		return descuento;
+	}
+
+	private void setDescuento(float descuento) {
+		this.descuento = descuento;
+	}
+
+	private String getNombre() {
+		return nombre;
+	}
+
+	private void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	private boolean isActivo() {
+		return activo;
+	}
+
+	private void setActivo(boolean activo) {
+		this.activo = activo;
+	}
+
+	private LocalDateTime getInicio() {
+		return inicio;
+	}
+
+	private void setInicio(LocalDateTime inicio) {
+		this.inicio = inicio;
+	}
+
+	private LocalDateTime getFin() {
+		return fin;
+	}
+
+	private void setFin(LocalDateTime fin) {
+		this.fin = fin;
+	}
+
+	private String getTipo() {
+		return tipo;
+	}
+
+	private void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 
 }
