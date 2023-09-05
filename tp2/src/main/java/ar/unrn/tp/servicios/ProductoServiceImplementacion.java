@@ -14,7 +14,6 @@ import ar.unrn.tp.modelo.Sistema;
 
 public class ProductoServiceImplementacion implements ProductoService {
 
-	Sistema sistema;
 	private ConsultaService consultas;
 	private CategoriaService categorias;
 
@@ -31,6 +30,8 @@ public class ProductoServiceImplementacion implements ProductoService {
 		consultas.inTransactionExecute((em) -> {
 
 			try {
+
+				Sistema sistema = new Sistema((ArrayList<Producto>) this.listarProductos(), null);
 				sistema.crearProducto(descripcion, codigo, categoria, precio, marca);
 				Producto producto = sistema.recuperarProducto(codigo);
 				em.persist(producto);
@@ -48,6 +49,7 @@ public class ProductoServiceImplementacion implements ProductoService {
 		consultas.inTransactionExecute((em) -> {
 			Producto producto = em.getReference(Producto.class, idProducto);
 			try {
+				Sistema sistema = new Sistema((ArrayList<Producto>) this.listarProductos(), null);
 				producto = sistema.modificarProducto(producto, descripcion, producto.codigoProducto(), categoria,
 						precio, marca);
 				em.persist(producto);

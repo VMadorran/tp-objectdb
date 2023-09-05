@@ -13,7 +13,7 @@
 <!-- 		<class>sample.MyEntity2</class> -->
 		<properties>
 			<property name="javax.persistence.jdbc.url"
-				value="C:\Users\user\OneDrive\Escritorio\2023- 2º cuatrimestre\Base de Datos 2\Bases\archivoBd.odb" />
+				value="C:\Users\user\OneDrive\Escritorio\2023- 2º cuatrimestre\Base de Datos 2\Bases\main-sistema.odb" />
 			<property name="javax.persistence.jdbc.user" value="admin" />
 			<property name="javax.persistence.jdbc.password"
 				value="admin" />
@@ -21,4 +21,3 @@
 	</persistence-unit>
 
 </persistence>
-

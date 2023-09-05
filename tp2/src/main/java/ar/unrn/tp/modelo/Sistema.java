@@ -23,6 +23,11 @@ public class Sistema {
 		this.servicio = servicio;
 	}
 
+	public void cargarClientes(List<Cliente> clientes) {
+		this.clientes = (ArrayList<Cliente>) clientes;
+
+	}
+
 	public void crearProducto(String descripcion, Long codigo, Categoria categoria, double precio, String marca)
 			throws Exception {
 
@@ -77,8 +82,7 @@ public class Sistema {
 
 		if ((promociones != null) && (carrito.cliente().perteneceAlCliente(nroTarjeta))) {
 
-			double montoTotal;
-			return montoTotal = carrito.calcularMontoDeCompra(promociones, promocionBancaria, nroTarjeta);
+			return carrito.calcularMontoDeCompra(promociones, promocionBancaria, nroTarjeta);
 		}
 		return 0;
 	}
@@ -133,12 +137,13 @@ public class Sistema {
 			if (servicio.fondosSuficientes(nroTarjeta)) {
 				double montoTotal = 0;
 
+				this.actualizarPromocionesDeCarritos(promocionesVigentes, promocionBancaria);
 				Venta venta = carrito.calcularMontoDePago(nroTarjeta);
 				return venta;
-			} else
-				throw new Exception("Ha ocurrido un error al realizar la compra");
+			}
 
-		}
+		} else
+			throw new Exception("Ha ocurrido un error al realizar la compra");
 		return null;
 
 	}
@@ -153,7 +158,7 @@ public class Sistema {
 
 	}
 
-	public Carrito carritoUsuario(Long dni) {
+	public Carrito carritoCliente(Long dni) {
 
 		for (Carrito carrito : carritos) {
 			if (carrito.perteneceAlUsuario(dni))
@@ -219,7 +224,7 @@ public class Sistema {
 				this.promocionesVigentes.remove(promo);
 			}
 		}
-		if (!promocionBancaria.estaVigente()) {
+		if ((this.promocionBancaria == null) || (!promocionBancaria.estaVigente())) {
 			this.historialBanco.add(this.promocionBancaria);
 			this.promocionBancaria = null;
 		}

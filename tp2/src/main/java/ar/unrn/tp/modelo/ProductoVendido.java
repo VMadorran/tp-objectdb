@@ -1,26 +1,24 @@
 package ar.unrn.tp.modelo;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.Embeddable;
 
-@Entity
+@Embeddable
 public class ProductoVendido {
-	@Id
-	private Long idProducto;
+	private Long codProducto;
 	private double precio;
 
-	public ProductoVendido(Long idProducto, double precio) {
-		this.idProducto = idProducto;
+	public ProductoVendido(Long codProducto, double precio) {
+		this.codProducto = codProducto;
 		this.precio = precio;
 
 	}
 
-	private Long getIdProducto() {
-		return idProducto;
+	private Long getCodProducto() {
+		return codProducto;
 	}
 
-	private void setIdProducto(Long idProducto) {
-		this.idProducto = idProducto;
+	private void setCodProducto(Long codProducto) {
+		this.codProducto = codProducto;
 	}
 
 	private double getPrecio() {
@@ -33,6 +31,11 @@ public class ProductoVendido {
 
 	private ProductoVendido() {
 
+	}
+
+	@Override
+	public String toString() {
+		return "ProductoVendido [codProducto=" + codProducto + ", precio=" + precio + "]";
 	}
 
 }

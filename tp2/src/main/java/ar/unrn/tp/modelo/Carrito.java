@@ -38,7 +38,6 @@ public class Carrito {
 		for (Producto producto : this.productosAComprar) {
 
 			double precioProducto = producto.precioProducto();
-			System.out.println(producto.marcaProducto());
 			for (Promocion promocion : promociones) {
 
 				if ((promocion.estaVigente()) && (promocion.seAplicaDescuento(producto.marcaProducto()))) {
@@ -49,7 +48,7 @@ public class Carrito {
 			montoTotal = montoTotal + precioProducto;
 		}
 
-		montoTotal = montoTotal - this.montoConPromocionBancaria(promocionBancaria, nroTarjeta, montoTotal);
+		montoTotal = montoTotal - this.montoConPromocionBancaria(this.promocionBancaria, nroTarjeta, montoTotal);
 		return montoTotal;
 	}
 
@@ -68,32 +67,32 @@ public class Carrito {
 
 		double montoTotal = 0;
 
-		if (this.cliente.perteneceAlCliente(nroTarjeta)&&(!this.estaVacio())) {
+		if (this.cliente.perteneceAlCliente(nroTarjeta) && (!this.estaVacio())) {
 
 			List<ProductoVendido> detallesDeCompra = new ArrayList<>();
 
 			for (Producto producto : this.productosAComprar) {
 
 				double precioProducto = producto.precioProducto();
-				System.out.println(producto.marcaProducto());
+
 				for (Promocion promocion : this.promocionesVigentes) {
 					if ((promocion.estaVigente()) && (promocion.seAplicaDescuento(producto.marcaProducto()))) {
 						precioProducto = promocion.aplicarDescuento(precioProducto);
 					}
 				}
 
-				detallesDeCompra.add(new ProductoVendido(producto.idProducto(), precioProducto));
+				var productoVendido = new ProductoVendido(producto.codigoProducto(), precioProducto);
+				System.out.println(productoVendido.toString());
+				detallesDeCompra.add(productoVendido);
 				montoTotal = montoTotal + precioProducto;
-				System.out.println("MontoTotal:" + montoTotal);
 
 			}
-
 			double bancaria = this.montoConPromocionBancaria(this.promocionBancaria, nroTarjeta, montoTotal);
 
 			montoTotal = montoTotal - bancaria;
 
-			Venta venta = new Venta(new ProveedorDeFecha().now(), detallesDeCompra, this.dniClienteCarrito(), montoTotal,
-					bancaria);
+			Venta venta = new Venta(new ProveedorDeFecha().now(), detallesDeCompra, this.dniClienteCarrito(),
+					montoTotal, bancaria);
 
 			return venta;
 		}

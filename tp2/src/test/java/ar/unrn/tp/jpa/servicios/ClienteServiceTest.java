@@ -9,25 +9,24 @@ import javax.persistence.TypedQuery;
 
 import org.junit.jupiter.api.Test;
 
-import ar.unrn.tp.api.ClienteService;
 import ar.unrn.tp.api.ConsultaService;
 import ar.unrn.tp.modelo.Cliente;
 import ar.unrn.tp.modelo.Dni;
 import ar.unrn.tp.modelo.Email;
 import ar.unrn.tp.modelo.Tarjeta;
 import ar.unrn.tp.servicios.ClienteServiceImplementacion;
-import ar.unrn.tp.servicios.ConsultaServiceImplementacion;
 
 public class ClienteServiceTest {
 
 	private Cliente cliente, clienteEsperado;
-	private ConsultaService consultas = new ConsultaServiceImplementacion();
-	private ClienteService implementacion = new ClienteServiceImplementacion();
+	ConsultaService consultas;
+	private ClienteServiceImplementacion implementacion;
 	private Tarjeta tarjeta;
 	private List<Tarjeta> tarjetas = new ArrayList<>();
 
 	@Test
 	public void crearCliente() {
+
 		// String nombre, String apellido, String dni, String email
 
 		try {

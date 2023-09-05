@@ -25,7 +25,7 @@ public class Cliente {
 	@Embedded
 	private Email email;
 	@Embedded
-	@OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_cliente")
 	private ArrayList<Tarjeta> mediosDePago = new ArrayList<Tarjeta>();
 
@@ -68,7 +68,9 @@ public class Cliente {
 			if (tarjeta.nroTarjeta().equals(nroTarjeta))
 				return true;
 		}
+		System.out.println("En pertenece al cliente:" + existe);
 		return existe;
+
 	}
 
 	public String marcaTarjeta(Long nroTarjeta) {

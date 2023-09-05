@@ -62,4 +62,9 @@ public class Tarjeta {
 		this.activa = activa;
 	}
 
+	@Override
+	public String toString() {
+		return "Tarjeta [nroTarjeta=" + nroTarjeta + ", marca=" + marca + ", activa=" + activa + "]";
+	}
+
 }

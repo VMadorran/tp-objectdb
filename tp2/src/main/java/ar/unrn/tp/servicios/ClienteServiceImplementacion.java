@@ -23,7 +23,6 @@ public class ClienteServiceImplementacion implements ClienteService {
 	public void clienteService(ConsultaService consultas) {
 		// TODO Auto-generated method stub
 		this.consultas = consultas;
-
 	}
 
 	@Override
@@ -34,8 +33,9 @@ public class ClienteServiceImplementacion implements ClienteService {
 		consultas.inTransactionExecute((em) -> {
 
 			try {
-				// ver de agregar a sistema
-				em.persist(new Cliente(nombre, apellido, new Dni(numero), new Email(email)));
+				sistema.crearUsuario(nombre, apellido, new Dni(numero), new Email(email));
+				var cliente = sistema.cliente(numero);
+				em.persist(cliente);
 
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -67,19 +67,18 @@ public class ClienteServiceImplementacion implements ClienteService {
 
 		Cliente cliente = this.cliente(idCliente);
 		Long nroTarjeta = Long.valueOf(nro);
-
+		sistema.cargarClientes(this.clientes());
 		consultas.inTransactionExecute((em) -> {
 			try {
+
 				sistema.agregarMedioDePago(cliente.dniUsuario(), new Tarjeta(nroTarjeta, marca));
-				Tarjeta tarjeta = cliente.tarjetaPorNro(nroTarjeta);
-				em.persist(tarjeta);
+				var clienteN = sistema.cliente(cliente.dniUsuario());
+				em.persist(clienteN);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
 		});
-
 	}
 
 	@Override
@@ -89,13 +88,11 @@ public class ClienteServiceImplementacion implements ClienteService {
 		consultas.inTransactionExecute((em) -> {
 
 			TypedQuery<Tarjeta> tarjetasQuery = em.createQuery(
-					"Select t from tarjeta join cliente c.id= t.idCliente" + "where c.id=: idCliente", Tarjeta.class);
+					"Select t from tarjeta join cliente c.id = t.id_cliente" + "where c.id=: idCliente", Tarjeta.class);
 			tarjetasQuery.setParameter(1, idCliente);
 
 			tarjetas.addAll(tarjetasQuery.getResultList());
-
 		});
-
 		return tarjetas;
 	}
 
@@ -104,9 +101,18 @@ public class ClienteServiceImplementacion implements ClienteService {
 		consultas.inTransactionExecute((em) -> {
 
 			cliente = em.find(Cliente.class, id);
-
 		});
 		return cliente;
 	}
 
+	private List<Cliente> clientes() {
+
+		List<Cliente> clientes = new ArrayList<>();
+		consultas.inTransactionExecute((em) -> {
+
+			TypedQuery<Cliente> clientesQuery = em.createQuery("select c from Cliente c", Cliente.class);
+			clientes.addAll(clientesQuery.getResultList());
+		});
+		return clientes;
+	}
 }

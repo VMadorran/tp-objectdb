@@ -4,10 +4,15 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Venta {
@@ -19,6 +24,9 @@ public class Venta {
 	@Column(name = "fecha_y_hora")
 	private LocalDateTime fechaYHora;
 
+	@Embedded
+	@OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_venta")
 	private List<ProductoVendido> productosVendidos = new ArrayList<>();
 	private Long dniCliente;
 	private double precioFinal;
@@ -53,4 +61,12 @@ public class Venta {
 		this.productosVendidos = productos;
 	}
 
+	@Override
+	public String toString() {
+		String venta = "id=" + id + ", fechaYHora=" + fechaYHora + " dniCliente=" + dniCliente + ", precioFinal="
+				+ precioFinal + ", descuentoBancario=" + descuentoBancario + "Cantidad de productos:"
+				+ this.productosVendidos.size();
+
+		return venta;
+	}
 }
