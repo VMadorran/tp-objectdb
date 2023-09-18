@@ -3,42 +3,56 @@ package ar.unrn.tp.modelo;
 import java.util.ArrayList;
 import java.util.List;
 
+import ar.unrn.tp.exception.CarritoVacioException;
+import ar.unrn.tp.exception.TarjetaInvalidaException;
+
 public class Carrito {
 
 	private ArrayList<Producto> productosAComprar = new ArrayList<Producto>();
 	private Cliente cliente;
 	private ArrayList<PromocionMarca> promocionesVigentes = new ArrayList<PromocionMarca>();
 	private PromocionBancaria promocionBancaria;
+	private ServicioWeb servicio;
 
-	public Carrito(Cliente usuario) {
+	public Carrito(Cliente usuario, ServicioWeb servicio) {
 
 		this.cliente = usuario;
+		this.servicio = servicio;
 	}
 
-	protected void actualizarPromociones(ArrayList<PromocionMarca> promociones, PromocionBancaria promocionBancaria) {
+	public void actualizarPromociones(List<PromocionMarca> promociones, List<PromocionBancaria> promocionBancaria) {
 
-		this.promocionesVigentes = promociones;
-		this.promocionBancaria = promocionBancaria;
+		for (PromocionMarca promo : promociones) {
+			if (promo.estaVigente())
+				promocionesVigentes.add(promo);
+
+		}
+		this.actualizarPromoBancaria(promocionBancaria);
 	}
 
-	public void agregarProducto(ArrayList<Producto> productos) {
+	private void actualizarPromoBancaria(List<PromocionBancaria> promos) {
+		for (PromocionBancaria promo : promos) {
+			if (promo.estaVigente())
+				this.promocionBancaria = promo;
+		}
+	}
+
+	public void agregarProductos(List<Producto> productos) throws CarritoVacioException {
+
+		if (productos.isEmpty())
+			throw new CarritoVacioException("La lista de productos se encuentra vacia");
 
 		this.productosAComprar.addAll(productos);
 	}
 
 	public double calcularMontoDeCompra(Long nroTarjeta) {
-		return this.calcularMontoDeCompra(promocionesVigentes, promocionBancaria, nroTarjeta);
-	}
-
-	public double calcularMontoDeCompra(ArrayList<PromocionMarca> promociones, PromocionBancaria promocionBancaria,
-			Long nroTarjeta) {
 
 		double montoTotal = 0;
 
 		for (Producto producto : this.productosAComprar) {
 
 			double precioProducto = producto.precioProducto();
-			for (Promocion promocion : promociones) {
+			for (Promocion promocion : promocionesVigentes) {
 
 				if ((promocion.estaVigente()) && (promocion.seAplicaDescuento(producto.marcaProducto()))) {
 					precioProducto = promocion.aplicarDescuento(precioProducto);
@@ -63,11 +77,12 @@ public class Carrito {
 			return 0;
 	}
 
-	public Venta calcularMontoDePago(Long nroTarjeta) {
+	public Venta realizarCompra(Long nroTarjeta) {
 
 		double montoTotal = 0;
 
-		if (this.cliente.perteneceAlCliente(nroTarjeta) && (!this.estaVacio())) {
+		if (this.cliente.perteneceAlCliente(nroTarjeta) && (!this.estaVacio())
+				&& (servicio.fondosSuficientes(nroTarjeta))) {
 
 			List<ProductoVendido> detallesDeCompra = new ArrayList<>();
 
@@ -82,7 +97,7 @@ public class Carrito {
 				}
 
 				var productoVendido = new ProductoVendido(producto.codigoProducto(), precioProducto);
-				System.out.println(productoVendido.toString());
+
 				detallesDeCompra.add(productoVendido);
 				montoTotal = montoTotal + precioProducto;
 
@@ -96,28 +111,24 @@ public class Carrito {
 
 			return venta;
 		}
+
 		return null;
 	}
 
-	public boolean perteneceAlUsuario(Long dniUsuario) {
+	public boolean perteneceAlUsuario(Long dniUsuario) throws TarjetaInvalidaException {
 
-		if (cliente.dniUsuario().equals(dniUsuario))
-			return true;
-
-		return false;
+		if (!cliente.dniUsuario().equals(dniUsuario))
+			throw new TarjetaInvalidaException("La tarjeta no pertenece al cliente");
+		return true;
 	}
 
-	public Long dniClienteCarrito() {
+	private Long dniClienteCarrito() {
 		return this.cliente.dniUsuario();
 	}
 
 	public boolean estaVacio() {
 		return this.productosAComprar.isEmpty();
 
-	}
-
-	public Cliente cliente() {
-		return this.cliente;
 	}
 
 }

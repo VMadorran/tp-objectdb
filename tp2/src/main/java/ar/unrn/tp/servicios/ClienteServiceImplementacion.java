@@ -10,13 +10,11 @@ import ar.unrn.tp.api.ConsultaService;
 import ar.unrn.tp.modelo.Cliente;
 import ar.unrn.tp.modelo.Dni;
 import ar.unrn.tp.modelo.Email;
-import ar.unrn.tp.modelo.Sistema;
 import ar.unrn.tp.modelo.Tarjeta;
 
 public class ClienteServiceImplementacion implements ClienteService {
 
-	Cliente cliente;
-	private Sistema sistema = new Sistema(null, null);
+	private Cliente cliente;
 	private ConsultaService consultas = new ConsultaServiceImplementacion();
 
 	@Override
@@ -31,11 +29,9 @@ public class ClienteServiceImplementacion implements ClienteService {
 		Long numero = Long.parseLong(dni);
 
 		consultas.inTransactionExecute((em) -> {
-
 			try {
-				sistema.crearUsuario(nombre, apellido, new Dni(numero), new Email(email));
-				var cliente = sistema.cliente(numero);
-				em.persist(cliente);
+
+				em.persist(new Cliente(nombre, apellido, new Dni(numero), new Email(email)));
 
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -45,14 +41,13 @@ public class ClienteServiceImplementacion implements ClienteService {
 	}
 
 	@Override
-	public void modificarCliente(Long idCliente, String nombre, String apellido, String dni, String email) {
+	public void modificarCliente(Long idCliente, String nombre, String apellido) {
 
-		Long numero = Long.parseLong(dni);
 		consultas.inTransactionExecute((em) -> {
 			Cliente cliente = em.getReference(Cliente.class, idCliente);
 
 			try {
-				cliente = sistema.modificarCliente(cliente, nombre, apellido, new Dni(numero), new Email(email));
+				cliente.modificarCliente(nombre, apellido);
 
 				em.persist(cliente);
 			} catch (Exception e) {
@@ -65,19 +60,21 @@ public class ClienteServiceImplementacion implements ClienteService {
 	@Override
 	public void agregarTarjeta(Long idCliente, String nro, String marca) {
 
-		Cliente cliente = this.cliente(idCliente);
 		Long nroTarjeta = Long.valueOf(nro);
-		sistema.cargarClientes(this.clientes());
-		consultas.inTransactionExecute((em) -> {
-			try {
 
-				sistema.agregarMedioDePago(cliente.dniUsuario(), new Tarjeta(nroTarjeta, marca));
-				var clienteN = sistema.cliente(cliente.dniUsuario());
-				em.persist(clienteN);
+		consultas.inTransactionExecute((em) -> {
+
+			Cliente cliente = em.getReference(Cliente.class, idCliente);
+
+			TypedQuery<Cliente> clientesQuery = em.createQuery("select c from Cliente c", Cliente.class);
+			try {
+				cliente.agregarMetodoDePago(new Tarjeta(nroTarjeta, marca));
+				em.persist(cliente);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+
 		});
 	}
 
@@ -85,34 +82,13 @@ public class ClienteServiceImplementacion implements ClienteService {
 	public List<Tarjeta> listarTarjetas(Long idCliente) {
 
 		List<Tarjeta> tarjetas = new ArrayList<>();
+
 		consultas.inTransactionExecute((em) -> {
 
-			TypedQuery<Tarjeta> tarjetasQuery = em.createQuery(
-					"Select t from tarjeta join cliente c.id = t.id_cliente" + "where c.id=: idCliente", Tarjeta.class);
-			tarjetasQuery.setParameter(1, idCliente);
-
-			tarjetas.addAll(tarjetasQuery.getResultList());
+			Cliente cliente = em.getReference(Cliente.class, idCliente);
+			tarjetas.addAll(cliente.mediosDePago());
 		});
 		return tarjetas;
 	}
 
-	private Cliente cliente(Long id) {
-
-		consultas.inTransactionExecute((em) -> {
-
-			cliente = em.find(Cliente.class, id);
-		});
-		return cliente;
-	}
-
-	private List<Cliente> clientes() {
-
-		List<Cliente> clientes = new ArrayList<>();
-		consultas.inTransactionExecute((em) -> {
-
-			TypedQuery<Cliente> clientesQuery = em.createQuery("select c from Cliente c", Cliente.class);
-			clientes.addAll(clientesQuery.getResultList());
-		});
-		return clientes;
-	}
 }

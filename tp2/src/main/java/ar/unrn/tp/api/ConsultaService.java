@@ -6,8 +6,6 @@ import javax.persistence.EntityManager;
 
 public interface ConsultaService {
 
-	public void setUp(String bd);
-
 	public void inTransactionExecute(Consumer<EntityManager> bloqueDeCodigo);
 
 }

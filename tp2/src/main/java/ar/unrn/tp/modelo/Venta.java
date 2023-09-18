@@ -45,6 +45,18 @@ public class Venta {
 	private Venta() {
 	}
 
+	public Long clienteComprador() {
+		return this.dniCliente;
+	}
+
+	public double precioFinal() {
+		return this.precioFinal;
+	}
+
+	public List<ProductoVendido> productos() {
+		return this.productosVendidos;
+	}
+
 	private LocalDateTime getFechaYHora() {
 		return fechaYHora;
 	}

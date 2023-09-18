@@ -1,6 +1,7 @@
 package ar.unrn.tp.modelo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
@@ -10,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+
+import ar.unrn.tp.exception.DatoVacioException;
 
 @Entity
 public class Cliente {
@@ -24,19 +27,18 @@ public class Cliente {
 
 	@Embedded
 	private Email email;
-	@Embedded
 	@OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_cliente")
+	@JoinColumn(name = "id_venta")
 	private ArrayList<Tarjeta> mediosDePago = new ArrayList<Tarjeta>();
 
-	public Cliente(String nombre, String apellido, Dni dni, Email email) throws Exception {
+	public Cliente(String nombre, String apellido, Dni dni, Email email) throws DatoVacioException {
 
 		if (this.datoNulo(nombre))
-			throw new Exception("El campo nombre no puede ser vacio");
+			throw new DatoVacioException("El campo nombre no puede ser vacio");
 		this.nombre = nombre;
 
 		if (this.datoNulo(apellido))
-			throw new Exception("El campo apellido no puede ser vacio");
+			throw new DatoVacioException("El campo apellido no puede ser vacio");
 		this.apellido = apellido;
 
 		this.dni = dni;
@@ -61,6 +63,10 @@ public class Cliente {
 		this.id = id;
 	}
 
+	public Long clienteId() {
+		return this.id;
+	}
+
 	public boolean perteneceAlCliente(Long nroTarjeta) {
 
 		boolean existe = false;
@@ -68,7 +74,6 @@ public class Cliente {
 			if (tarjeta.nroTarjeta().equals(nroTarjeta))
 				return true;
 		}
-		System.out.println("En pertenece al cliente:" + existe);
 		return existe;
 
 	}
@@ -82,6 +87,12 @@ public class Cliente {
 		return null;
 	}
 
+	public boolean nombreYApellido(String nombre, String apellido) {
+		if ((this.apellido.equals(apellido)) && (this.nombre.equals(nombre)))
+			return true;
+		return false;
+	}
+
 	public Long dniUsuario() {
 		return this.dni.dni();
 	}
@@ -92,11 +103,10 @@ public class Cliente {
 
 	}
 
-	public void modificarCliente(String nombre, String apellido, Dni dni, Email email) {
+	public void modificarCliente(String nombre, String apellido) {
 		this.nombre = nombre;
 		this.apellido = apellido;
-		this.dni = dni;
-		this.email = email;
+
 	}
 
 	public Tarjeta tarjetaPorNro(Long nro) {
@@ -107,8 +117,8 @@ public class Cliente {
 		return null;
 	}
 
-	void agregarId(Long id) {
-		this.id = id;
+	public List<Tarjeta> mediosDePago() {
+		return this.mediosDePago;
 	}
 
 	private boolean datoNulo(String dato) {

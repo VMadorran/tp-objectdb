@@ -9,10 +9,12 @@ import javax.persistence.TypedQuery;
 
 import org.junit.jupiter.api.Test;
 
+import ar.unrn.tp.api.CategoriaService;
 import ar.unrn.tp.api.ConsultaService;
 import ar.unrn.tp.api.ProductoService;
 import ar.unrn.tp.modelo.Categoria;
 import ar.unrn.tp.modelo.Producto;
+import ar.unrn.tp.servicios.CategoriaServiceImplementacion;
 import ar.unrn.tp.servicios.ConsultaServiceImplementacion;
 import ar.unrn.tp.servicios.ProductoServiceImplementacion;
 
@@ -20,67 +22,96 @@ public class ProductoServiceTest {
 
 	private ConsultaService consultas = new ConsultaServiceImplementacion();
 	private ProductoService implementacion = new ProductoServiceImplementacion();
+	private CategoriaService catService = new CategoriaServiceImplementacion();
 	private List<Producto> productos = new ArrayList<>();
-	private Producto productoEsperado;
 
 	@Test
 	public void crearProductoTest() {
 
-		Categoria categoria = new Categoria();
-		categoria.agregarNombre("Indumentaria");
-
 		try {
-			productoEsperado = new Producto("Remera", 1L, categoria, 1500, "Acme", 1L);
+			Categoria categoria = new Categoria();
+			categoria.agregarNombre("Indumentaria");
+			categoria.agregarCodigo(1L);
+			implementacion.productoService(consultas);
+			catService.categoriaService(consultas);
+
+			catService.crearCategoria(1L, "Indumentaria");
+			implementacion.crearProducto(1L, "Zapatillas", 10000, 1L, "Acme");
+
+			consultas.inTransactionExecute((em) -> {
+
+				var producto = em.find(Producto.class, 2L);
+
+				assertEquals("Zapatillas", producto.descripcion());
+				assertEquals(1L, producto.codigoProducto());
+				assertEquals("Acme", producto.marcaProducto());
+			});
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		consultas.setUp("");
-		consultas.inTransactionExecute((em) -> {
-			TypedQuery<Producto> productoTypedQuery = em.createQuery("select p from Producto p where p.id = 1",
-					Producto.class);
-			var producto = em.find(Producto.class, 1L);
-			assertEquals(productoEsperado, producto);
-		});
 	}
 
 	@Test
 	public void modificarProductoTest() {
 
-		consultas.setUp("");
-		consultas.inTransactionExecute((em) -> {
-		});
+		try {
+			Categoria categoria = new Categoria();
+			categoria.agregarNombre("Indumentaria");
+			categoria.agregarCodigo(1L);
+
+			implementacion.productoService(consultas);
+			catService.categoriaService(consultas);
+
+			catService.crearCategoria(1L, "Indumentaria");
+			implementacion.crearProducto(1L, "Zapatillas", 10000, 1L, "Comarca");
+
+			implementacion.modificarProducto(1L, "Camiseta", 1500, "Nope");
+			consultas.inTransactionExecute((em) -> {
+				var producto = em.find(Producto.class, 2L);
+
+				assertEquals("Camiseta", producto.descripcion());
+				assertEquals(1L, producto.codigoProducto());
+				assertEquals("Nope", producto.marcaProducto());
+			});
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Test
 	public void listarProductosTest() {
 		Categoria categoria = new Categoria();
 		categoria.agregarNombre("Indumentaria");
-
-		List<Producto> productosEsperados = new ArrayList<>();
+		categoria.agregarCodigo(1L);
 
 		try {
-			var producto1 = new Producto("Zapatillas", 1L, categoria, 25000, "Comarca", 1L);
-			var producto2 = new Producto("Remera", 2L, categoria, 1500, "Acme", 2L);
-			var producto3 = new Producto("Medias", 3L, categoria, 500, "Acme", 3L);
-			var producto4 = new Producto("Pantalon", 4L, categoria, 3000, "Comarca", 4L);
-			productosEsperados.add(producto1);
-			productosEsperados.add(producto2);
-			productosEsperados.add(producto3);
-			productosEsperados.add(producto4);
+
+			implementacion.productoService(consultas);
+			catService.categoriaService(consultas);
+
+			catService.crearCategoria(1L, "Indumentaria");
+			implementacion.crearProducto(1L, "Remera", 1000, 1L, "Acme");
+			implementacion.crearProducto(2L, "Remera", 1000, 1L, "Nope");
+
+			consultas.inTransactionExecute((em) -> {
+
+				TypedQuery<Producto> productoTypedQuery = em.createQuery("select p from Producto p", Producto.class);
+				productos.addAll(productoTypedQuery.getResultList());
+
+				assertEquals("Remera", productos.get(0).descripcion());
+				assertEquals(1L, productos.get(0).codigoProducto());
+				assertEquals("Acme", productos.get(0).marcaProducto());
+
+				assertEquals("Remera", productos.get(1).descripcion());
+				assertEquals(2L, productos.get(1).codigoProducto());
+				assertEquals("Nope", productos.get(1).marcaProducto());
+			});
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		consultas.setUp("");
-		consultas.inTransactionExecute((em) -> {
-
-			TypedQuery<Producto> productoTypedQuery = em.createQuery("select p from Producto p", Producto.class);
-			productos.addAll(productoTypedQuery.getResultList());
-			assertEquals(productosEsperados, productos);
-
-		});
 
 	}
 }

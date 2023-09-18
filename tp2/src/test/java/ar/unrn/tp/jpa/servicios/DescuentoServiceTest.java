@@ -1,51 +1,69 @@
 package ar.unrn.tp.jpa.servicios;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.time.LocalDateTime;
+
 import org.junit.jupiter.api.Test;
 
 import ar.unrn.tp.api.ConsultaService;
+import ar.unrn.tp.api.DescuentoService;
 import ar.unrn.tp.modelo.Fecha;
-import ar.unrn.tp.modelo.Promocion;
+import ar.unrn.tp.modelo.PromocionBancaria;
 import ar.unrn.tp.modelo.PromocionMarca;
 import ar.unrn.tp.modelo.ProveedorDeFecha;
 import ar.unrn.tp.servicios.ConsultaServiceImplementacion;
+import ar.unrn.tp.servicios.DescuentoServiceImplementacion;
 
 public class DescuentoServiceTest {
 	private ConsultaService consultas = new ConsultaServiceImplementacion();
+
+	private DescuentoService descService = new DescuentoServiceImplementacion();
 	private Fecha fecha = new ProveedorDeFecha();
+
+	private LocalDateTime desde = fecha.now().plusDays(5);
+	private LocalDateTime hasta = fecha.now().plusWeeks(2);
 
 	@Test
 	public void crearDescuentoTest() {
 
-		var desde = fecha.now().plusDays(5);
-		var hasta = fecha.now().plusWeeks(2);
 		try {
-			Promocion promocionEsperada = new PromocionMarca(desde, hasta, "Acme", 0.05f);
+
+			descService.descuentoService(consultas);
+			descService.crearDescuento("Acme", desde, hasta, 0.05f);
+
+			consultas.inTransactionExecute((em) -> {
+
+				PromocionMarca promo = em.getReference(PromocionMarca.class, 1L);
+				assertEquals(promo.marca(), "Acme");
+				assertEquals(promo.descuento(), 0.05f);
+
+			});
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		consultas.inTransactionExecute((em) -> {
-			// LocalDateTime inicio, LocalDateTime fin, String nombre, float descuento
 
-		});
 	}
 
 	@Test
 	public void creardescuentoSobreTotalTest() {
-		consultas.inTransactionExecute((em) -> {
-		});
+
+		try {
+
+			descService.descuentoService(consultas);
+			descService.crearDescuento("Acme", desde, hasta, 0.08f);
+
+			consultas.inTransactionExecute((em) -> {
+
+				PromocionBancaria promo = em.getReference(PromocionBancaria.class, 1L);
+				assertEquals(promo.marca(), "Acme");
+				assertEquals(promo.descuento(), 0.08f);
+			});
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 }
-/*
- * public class ClienteService {
- * 
- * private EntityManagerFactory emf
- * 
- * public ClienteService(EntityManagerFactory emf) {
- * 
- * this.emf = emf; }
- * 
- * public void nuevoCliente(...) { EntityManager em = emf.createEntityManager();
- * EntityTransaction tx = em.getTransaction(); try {...} ... ... } }
- */

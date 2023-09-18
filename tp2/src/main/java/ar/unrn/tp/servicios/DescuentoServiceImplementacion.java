@@ -6,6 +6,7 @@ import ar.unrn.tp.api.ConsultaService;
 import ar.unrn.tp.api.DescuentoService;
 import ar.unrn.tp.modelo.Promocion;
 import ar.unrn.tp.modelo.PromocionBancaria;
+import ar.unrn.tp.modelo.PromocionMarca;
 
 public class DescuentoServiceImplementacion implements DescuentoService {
 
@@ -14,6 +15,8 @@ public class DescuentoServiceImplementacion implements DescuentoService {
 	@Override
 	public void descuentoService(ConsultaService consultas) {
 		// TODO Auto-generated method stub
+
+		this.consultas = consultas;
 
 	}
 
@@ -43,7 +46,7 @@ public class DescuentoServiceImplementacion implements DescuentoService {
 		consultas.inTransactionExecute((em) -> {
 			Promocion promo;
 			try {
-				promo = new PromocionBancaria(fechaDesde, fechaHasta, marcaProducto, porcentaje);
+				promo = new PromocionMarca(fechaDesde, fechaHasta, marcaProducto, porcentaje);
 				em.persist(promo);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

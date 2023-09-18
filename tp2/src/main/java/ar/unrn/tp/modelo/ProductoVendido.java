@@ -4,6 +4,7 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 public class ProductoVendido {
+
 	private Long codProducto;
 	private double precio;
 
@@ -11,6 +12,10 @@ public class ProductoVendido {
 		this.codProducto = codProducto;
 		this.precio = precio;
 
+	}
+
+	public Long codProducto() {
+		return this.codProducto;
 	}
 
 	private Long getCodProducto() {

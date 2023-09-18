@@ -73,6 +73,14 @@ public abstract class Promocion {
 		return false;
 	}
 
+	public String marca() {
+		return this.nombre;
+	}
+
+	public float descuento() {
+		return this.descuento;
+	}
+
 	private Long getId() {
 		return id;
 	}

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="71718234-4c2c-41fd-ab6f-045f05dbd62a" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ar/unrn/tp/api/ClienteService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/unrn/tp/api/ClienteService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ar/unrn/tp/api/ProductoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/unrn/tp/api/ProductoService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ar/unrn/tp/main/MainSistema.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/unrn/tp/main/MainSistema.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ar/unrn/tp/main/MainSistemaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/unrn/tp/main/MainSistemaService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ar/unrn/tp/modelo/Carrito.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/unrn/tp/modelo/Carrito.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ar/unrn/tp/modelo/Categoria.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/unrn/tp/modelo/Categoria.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ar/unrn/tp/modelo/Cliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/unrn/tp/modelo/Cliente.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ar/unrn/tp/modelo/Producto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/unrn/tp/modelo/Producto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ar/unrn/tp/modelo/ProductoVendido.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/unrn/tp/modelo/ProductoVendido.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ar/unrn/tp/modelo/Sistema.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ar/unrn/tp/modelo/Tarjeta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/unrn/tp/modelo/Tarjeta.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ar/unrn/tp/servicios/CategoriaServiceImplementacion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/unrn/tp/servicios/CategoriaServiceImplementacion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ar/unrn/tp/servicios/ClienteServiceImplementacion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/unrn/tp/servicios/ClienteServiceImplementacion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ar/unrn/tp/servicios/ConsultaServiceImplementacion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/unrn/tp/servicios/ConsultaServiceImplementacion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ar/unrn/tp/servicios/DescuentoServiceImplementacion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/unrn/tp/servicios/DescuentoServiceImplementacion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ar/unrn/tp/servicios/ProductoServiceImplementacion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/unrn/tp/servicios/ProductoServiceImplementacion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ar/unrn/tp/servicios/VentaServiceImplementacion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/unrn/tp/servicios/VentaServiceImplementacion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ar/unrn/tp/jpa/servicios/ClienteServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ar/unrn/tp/jpa/servicios/ClienteServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ar/unrn/tp/jpa/servicios/DescuentoServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ar/unrn/tp/jpa/servicios/DescuentoServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ar/unrn/tp/jpa/servicios/ProductoServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ar/unrn/tp/jpa/servicios/ProductoServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ar/unrn/tp/jpa/servicios/VentaServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ar/unrn/tp/jpa/servicios/VentaServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/maven/tp2/tp2/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/META-INF/maven/tp2/tp2/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/maven/tp2/tp2/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/META-INF/maven/tp2/tp2/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ar/unrn/tp/api/ClienteService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ar/unrn/tp/api/ClienteService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ar/unrn/tp/api/ProductoService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ar/unrn/tp/api/ProductoService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ar/unrn/tp/main/MainSistema.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ar/unrn/tp/main/MainSistemaService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ar/unrn/tp/main/MainSistemaService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ar/unrn/tp/modelo/Carrito.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ar/unrn/tp/modelo/Carrito.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ar/unrn/tp/modelo/Categoria.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ar/unrn/tp/modelo/Categoria.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ar/unrn/tp/modelo/Cliente.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ar/unrn/tp/modelo/Cliente.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ar/unrn/tp/modelo/Producto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ar/unrn/tp/modelo/Producto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ar/unrn/tp/modelo/ProductoVendido.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ar/unrn/tp/modelo/ProductoVendido.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ar/unrn/tp/modelo/Sistema.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ar/unrn/tp/modelo/Tarjeta.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ar/unrn/tp/modelo/Tarjeta.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ar/unrn/tp/servicios/CategoriaServiceImplementacion.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ar/unrn/tp/servicios/CategoriaServiceImplementacion.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ar/unrn/tp/servicios/ClienteServiceImplementacion.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ar/unrn/tp/servicios/ClienteServiceImplementacion.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ar/unrn/tp/servicios/ConsultaServiceImplementacion.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ar/unrn/tp/servicios/ConsultaServiceImplementacion.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ar/unrn/tp/servicios/DescuentoServiceImplementacion.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ar/unrn/tp/servicios/DescuentoServiceImplementacion.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ar/unrn/tp/servicios/ProductoServiceImplementacion.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ar/unrn/tp/servicios/ProductoServiceImplementacion.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ar/unrn/tp/servicios/VentaServiceImplementacion.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ar/unrn/tp/servicios/VentaServiceImplementacion.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/ar/unrn/tp/jpa/servicios/ClienteServiceTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/ar/unrn/tp/jpa/servicios/ClienteServiceTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/ar/unrn/tp/jpa/servicios/DescuentoServiceTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/ar/unrn/tp/jpa/servicios/DescuentoServiceTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/ar/unrn/tp/jpa/servicios/ProductoServiceTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/ar/unrn/tp/jpa/servicios/ProductoServiceTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/ar/unrn/tp/jpa/servicios/VentaServiceTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/ar/unrn/tp/jpa/servicios/VentaServiceTest.class" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 7
+}]]></component>
+  <component name="ProjectId" id="2VSuWXFHi8CZdSirfyTZOMSUtS5" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/user/git/tp-objectdb/tp2",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="71718234-4c2c-41fd-ab6f-045f05dbd62a" name="Changes" comment="" />
+      <created>1694841834833</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1694841834833</updated>
+      <workItem from="1694841836967" duration="89000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

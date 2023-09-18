@@ -1,6 +1,9 @@
 package ar.unrn.tp.servicios;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.TypedQuery;
 
 import ar.unrn.tp.api.CategoriaService;
 import ar.unrn.tp.api.ConsultaService;
@@ -21,7 +24,6 @@ public class CategoriaServiceImplementacion implements CategoriaService {
 	@Override
 	public void crearCategoria(Long codCategoria, String marca) {
 		// TODO Auto-generated method stub
-
 		consultas.inTransactionExecute((em) -> {
 			var categoria = new Categoria();
 			categoria.agregarCodigo(codCategoria);
@@ -45,10 +47,16 @@ public class CategoriaServiceImplementacion implements CategoriaService {
 	@Override
 	public List<Categoria> categorias() {
 		// TODO Auto-generated method stub
-//		consultas.inTransactionExecute((em) -> {
-//
-//		});
-		return null;
+
+		List<Categoria> categorias = new ArrayList<>();
+
+		consultas.inTransactionExecute((em) -> {
+
+			TypedQuery<Categoria> categoriasQuery = em.createQuery("Select c from categoria c", Categoria.class);
+			categorias.addAll(categoriasQuery.getResultList());
+
+		});
+		return categorias;
 	}
 
 }

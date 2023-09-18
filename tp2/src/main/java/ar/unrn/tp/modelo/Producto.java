@@ -1,5 +1,6 @@
 package ar.unrn.tp.modelo;
 
+import javax.jdo.annotations.Unique;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +12,7 @@ public class Producto {
 	@Id
 	@GeneratedValue
 	private Long id;
-
+	@Unique
 	private Long codigo;
 	@Embedded
 	private Categoria categoria;
@@ -73,10 +74,8 @@ public class Producto {
 		return this.marca;
 	}
 
-	void modificarProducto(String descripcion, Long codigo, Categoria categoria, double precio, String marca) {
+	public void modificarProducto(String descripcion, double precio, String marca) {
 		this.descripcion = descripcion;
-		this.codigo = codigo;
-		this.categoria = categoria;
 		this.precio = precio;
 		this.marca = marca;
 	}

@@ -11,22 +11,15 @@ import ar.unrn.tp.api.ConsultaService;
 
 public class ConsultaServiceImplementacion implements ConsultaService {
 
-	private String bd;
-
 	private EntityManagerFactory emf;
 
 	private void setUp() {
 		// TODO Auto-generated method stub
 
 		emf = Persistence
+//				.createEntityManagerFactory("jpa-objectdb");
 				// drop create for testing pursposes
-				.createEntityManagerFactory(this.bd);
-	}
-
-	@Override
-	public void setUp(String bd) {
-		// TODO Auto-generated method stub
-		this.bd = bd;
+				.createEntityManagerFactory("objectdb:myDbTestFile.tmp;drop");
 
 	}
 
@@ -52,6 +45,7 @@ public class ConsultaServiceImplementacion implements ConsultaService {
 
 		} catch (Exception e) {
 			tx.rollback();
+			e.printStackTrace();
 			throw e;
 		} finally {
 			if (em != null && em.isOpen())

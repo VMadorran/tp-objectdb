@@ -1,5 +1,6 @@
 package ar.unrn.tp.modelo;
 
+import javax.jdo.annotations.Unique;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -10,6 +11,7 @@ public class Categoria implements Subcategoria {
 	@GeneratedValue
 	private Long id;
 	private String nombre;
+	@Unique
 	private Long codigoCategoria;
 
 	@Override

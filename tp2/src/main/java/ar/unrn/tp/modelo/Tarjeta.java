@@ -1,8 +1,8 @@
 package ar.unrn.tp.modelo;
 
-import javax.persistence.Embeddable;
+import javax.persistence.Entity;
 
-@Embeddable
+@Entity
 public class Tarjeta {
 
 	private Long nroTarjeta;

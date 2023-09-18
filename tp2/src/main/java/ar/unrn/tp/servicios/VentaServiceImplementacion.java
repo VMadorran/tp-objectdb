@@ -7,21 +7,21 @@ import javax.persistence.TypedQuery;
 
 import ar.unrn.tp.api.ConsultaService;
 import ar.unrn.tp.api.VentaService;
+import ar.unrn.tp.exception.CarritoVacioException;
 import ar.unrn.tp.modelo.Carrito;
 import ar.unrn.tp.modelo.Cliente;
 import ar.unrn.tp.modelo.Producto;
 import ar.unrn.tp.modelo.PromocionBancaria;
 import ar.unrn.tp.modelo.PromocionMarca;
-import ar.unrn.tp.modelo.ProveedorDeFecha;
-import ar.unrn.tp.modelo.Sistema;
-import ar.unrn.tp.modelo.Tarjeta;
+import ar.unrn.tp.modelo.ServicioWeb;
+import ar.unrn.tp.modelo.ServicioWebImplementacion;
 import ar.unrn.tp.modelo.Venta;
 
 public class VentaServiceImplementacion implements VentaService {
-	private Sistema sistema;
 	private ConsultaService consultas;
 	private float monto;
 	PromocionBancaria bancaria = null;
+	ServicioWeb servicio = new ServicioWebImplementacion();
 
 	@Override
 	public void ventaService(ConsultaService consultas) {
@@ -33,21 +33,20 @@ public class VentaServiceImplementacion implements VentaService {
 	@Override
 	public void realizarVenta(Long idCliente, List<Long> productos, Long idTarjeta) {
 
-		ArrayList<Producto> productosCompra = this.productos(productos);
-		sistema.actualizarPromocionesVigentes(this.promocionesMarca(), this.promocionBancaria());
+		List<Producto> productosCompra = this.productos(productos);
 
 		consultas.inTransactionExecute((em) -> {
 
-			Cliente cliente = em.find(Cliente.class, idCliente);
-
-			var carrito = new Carrito(cliente);
-
-			sistema.agregarAlCarrito((ArrayList<Producto>) productosCompra, carrito);// Agrega los productos al carrito
-			var tarjeta = em.getReference(Tarjeta.class, idTarjeta);// Recupera la tarjeta del cliente
-
 			try {
-				sistema.realizarCompra(carrito, idTarjeta); // realiza la compra
-			} catch (Exception e) {
+				Cliente cliente = em.find(Cliente.class, idCliente);
+
+				var carrito = new Carrito(cliente, new ServicioWebImplementacion());
+
+				carrito.agregarProductos(productosCompra);
+				carrito.actualizarPromociones(this.promocionesMarca(), this.promocionBancaria());
+				var venta = carrito.realizarCompra(idTarjeta);
+				em.persist(venta);
+			} catch (CarritoVacioException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -57,23 +56,27 @@ public class VentaServiceImplementacion implements VentaService {
 	}
 
 	@Override
-	public float calcularMonto(List<Long> productos, Long idTarjeta) {
+	public float calcularMonto(List<Long> productos, Long idTarjeta, Long idCliente) {
 
-		ArrayList<Producto> productosCompra = this.productos(productos);
+		ArrayList<Producto> productosCompra = new ArrayList<>();
 
 		consultas.inTransactionExecute((em) -> {
+			try {
+				for (Long idProducto : productos) {
+					var producto = em.getReference(Producto.class, idProducto);
+					productosCompra.add(producto);
+				}
+				var cliente = em.getReference(Cliente.class, idCliente);
+				var carrito = new Carrito(cliente, servicio);
 
-			TypedQuery<Cliente> clienteTypedQuery = em.createQuery(
-					"select c from Cliente c join tarjeta t where t.id_cliente =: idTarjeta ", Cliente.class);
-			clienteTypedQuery.setParameter(1, idTarjeta);
-			var cliente = clienteTypedQuery.getSingleResult();
-			var carrito = new Carrito(cliente);
+				carrito.agregarProductos(productosCompra);
 
-			sistema.agregarAlCarrito(productosCompra, carrito);
-			var tarjeta = em.getReference(Tarjeta.class, idTarjeta);
-
-			sistema.actualizarPromocionesVigentes(this.promocionesMarca(), this.promocionBancaria());
-			var monto = (float) sistema.calcularMontoDeCarritoConDescuentosVigentes(carrito, idTarjeta);
+				carrito.actualizarPromociones(this.promocionesMarca(), this.promocionBancaria());
+				monto = (float) carrito.calcularMontoDeCompra(idTarjeta);
+			} catch (CarritoVacioException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 		});
 
@@ -81,24 +84,23 @@ public class VentaServiceImplementacion implements VentaService {
 
 	}
 
-	private PromocionBancaria promocionBancaria() {
+	private List<PromocionBancaria> promocionBancaria() {
+
+		List<PromocionBancaria> bancarias = new ArrayList<>();
 
 		consultas.inTransactionExecute((em) -> {
-
-			TypedQuery<PromocionBancaria> promo = em.createQuery("Select p from PromocionBancaria where p.fin >=: hoy",
+			TypedQuery<PromocionBancaria> ventasTypedQuery = em.createQuery("select p from PromocionBancaria p",
 					PromocionBancaria.class);
-			promo.setParameter(1, new ProveedorDeFecha().now());
-			bancaria = promo.getSingleResult();
-
+			bancarias.addAll(ventasTypedQuery.getResultList());
 		});
 
-		return bancaria;
+		return bancarias;
 
 	}
 
-	private ArrayList<Producto> productos(List<Long> productos) {
+	private List<Producto> productos(List<Long> productos) {
 
-		ArrayList<Producto> productosCompra = new ArrayList<>();
+		List<Producto> productosCompra = new ArrayList<>();
 		consultas.inTransactionExecute((em) -> {
 
 			for (Long idProducto : productos) {
@@ -110,9 +112,9 @@ public class VentaServiceImplementacion implements VentaService {
 		return productosCompra;
 	}
 
-	private ArrayList<PromocionMarca> promocionesMarca() {
+	private List<PromocionMarca> promocionesMarca() {
 
-		ArrayList<PromocionMarca> bancarias = new ArrayList<>();
+		List<PromocionMarca> bancarias = new ArrayList<>();
 
 		consultas.inTransactionExecute((em) -> {
 			TypedQuery<PromocionMarca> ventasTypedQuery = em.createQuery("select p from PromocionMarca p",

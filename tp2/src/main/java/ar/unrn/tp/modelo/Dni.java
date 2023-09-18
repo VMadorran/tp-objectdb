@@ -1,11 +1,10 @@
 package ar.unrn.tp.modelo;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
 public class Dni {
-	@Column(name = "dni")
+
 	private Long dni;
 
 	public Dni(Long dni) throws Exception {
